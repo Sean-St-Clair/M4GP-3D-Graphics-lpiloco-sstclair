@@ -112,8 +112,19 @@ void Cube::rotate(double theta_x, double theta_y, double theta_z) {
 }
 
 void Cube::move(double delta_x, double delta_y, double delta_z) {
+    // Move x
     center.x += delta_x;
     for (point &p: corners) {
         p.x += delta_x;
+    }
+    // Move y
+    center.y += delta_y;
+    for (point &p: corners) {
+        p.y += delta_y;
+    }
+    // Move z
+    center.z += delta_z;
+    for (point &p: corners) {
+        p.z += delta_z;
     }
 }
