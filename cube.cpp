@@ -35,21 +35,21 @@ Cube::Cube(point center, unsigned int edge_length) {
 
 void Cube::draw() const {
     glBegin(GL_QUADS);
-    
+
     // Yellow
     glColor3f(1, 1, 0);
     draw_point(corners[0]);
     draw_point(corners[1]);
     draw_point(corners[3]);
     draw_point(corners[2]);
-    
+
     // Magenta
     glColor3f(1, 0, 1);
     draw_point(corners[5]);
     draw_point(corners[4]);
     draw_point(corners[6]);
     draw_point(corners[7]);
-    
+
     glEnd();
 }
 
@@ -59,11 +59,25 @@ void Cube::rotate(double theta_x, double theta_y, double theta_z) {
     // Move to origin
     move(-center_x, -center_y, -center_z);
     // Rotate x
-    for (point &p : corners) {
+    for (point &p: corners) {
         old_y = p.y;
         old_z = p.z;
         p.y = old_y * cos(theta_x) - old_z * sin(theta_x);
         p.z = old_y * sin(theta_x) + old_z * cos(theta_x);
+    }
+    // Rotate y
+    for (point &p: corners) {
+        old_x = p.x;
+        old_z = p.z;
+        p.x = old_x * cos(theta_y) - old_z * sin(theta_y);
+        p.z = old_x * sin(theta_y) + old_z * cos(theta_y);
+    }
+    // Rotate z
+    for (point &p: corners) {
+        old_y = p.y;
+        old_x = p.x;
+        p.y = old_y * cos(theta_z) - old_x * sin(theta_z);
+        p.x = old_y * sin(theta_z) + old_x * cos(theta_z);
     }
     // Move back to position
     move(center_x, center_y, center_z);
@@ -71,7 +85,7 @@ void Cube::rotate(double theta_x, double theta_y, double theta_z) {
 
 void Cube::move(double delta_x, double delta_y, double delta_z) {
     center.x += delta_x;
-    for (point &p : corners) {
+    for (point &p: corners) {
         p.x += delta_x;
     }
 }

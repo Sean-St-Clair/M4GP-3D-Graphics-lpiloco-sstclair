@@ -2,6 +2,7 @@
 #include "cube.h"
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
 GLdouble width, height;
@@ -29,11 +30,11 @@ void draw_axes() {
     glLineWidth(2.0);
     glBegin(GL_LINES);
     glColor3f(1.0, 0.0, 0.0);
-    glVertex3f(-width/2.0, 0.0, 0.0);
-    glVertex3f(width/2.0, 0.0, 0.0);
+    glVertex3f(-width / 2.0, 0.0, 0.0);
+    glVertex3f(width / 2.0, 0.0, 0.0);
     glColor3f(0.0, 1.0, 0.0);
-    glVertex3f(0.0, height/2.0, 0.0);
-    glVertex3f(0.0, -height/2.0, 0.0);
+    glVertex3f(0.0, height / 2.0, 0.0);
+    glVertex3f(0.0, -height / 2.0, 0.0);
     glColor3f(0.0, 0.0, 1.0);
     glVertex3f(0.0, 0.0, width);
     glVertex3f(0.0, 0.0, -width);
@@ -49,20 +50,20 @@ void display() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(-width/2, width/2, -height/2, height/2, -width, width);
-    
+    glOrtho(-width / 2, width / 2, -height / 2, height / 2, -width, width);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);   // Clear the color buffer with current clearing color
-    
+
     glEnable(GL_DEPTH);
     glEnable(GL_CULL_FACE);
     glPolygonMode(GL_FRONT, GL_FILL);
-    
+
     /*
      * Draw here
      */
     draw_axes();
     c.draw();
-    
+
     glFlush();  // Render now
 }
 
@@ -74,18 +75,25 @@ void kbd(unsigned char key, int x, int y) {
         exit(0);
     }
 
-    switch(key) {
-        case 'x': c.rotate(PI / 100.0, 0, 0);
+    switch (key) {
+        case 'x':
+            c.rotate(PI / 100.0, 0, 0);
+            break;
+        case 'y':
+            c.rotate(0, PI / 100.0, 0);
+            break;
+        case 'z':
+            c.rotate(0, 0, PI / 100.0);
             break;
     }
-    
+
     glutPostRedisplay();
 }
 
 void kbdS(int key, int x, int y) {
-    switch(key) {
+    switch (key) {
         case GLUT_KEY_DOWN:
-            
+
             break;
         case GLUT_KEY_LEFT:
             c.move(-5, 0, 0);
@@ -94,67 +102,67 @@ void kbdS(int key, int x, int y) {
             c.move(5, 0, 0);
             break;
         case GLUT_KEY_UP:
-            
+
             break;
     }
-    
+
     glutPostRedisplay();
 }
 
 void cursor(int x, int y) {
-    
+
     glutPostRedisplay();
 }
 
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
-    
+
     glutPostRedisplay();
 }
 
 void timer(int dummy) {
-    
+
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
 
 /* Main function: GLUT runs as a console application starting at main()  */
-int main(int argc, char** argv) {
-    
+int main(int argc, char **argv) {
+
     init();
-    
+
     glutInit(&argc, argv);          // Initialize GLUT
-    
+
     glutInitDisplayMode(GLUT_RGBA);
-    
-    glutInitWindowSize((int)width, (int)height);
+
+    glutInitWindowSize((int) width, (int) height);
     glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
     wd = glutCreateWindow("3D Graphics!" /* title */ );
-    
+
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);
-    
+
     // Our own OpenGL initialization
     initGL();
-    
+
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
-    
+
     // register special event: function keys, arrows, etc.
     glutSpecialFunc(kbdS);
-    
+
     // handles mouse movement
     glutPassiveMotionFunc(cursor);
-    
+
     // handles mouse click
     glutMouseFunc(mouse);
-    
+
     // handles timer
     glutTimerFunc(0, timer, 0);
-    
+
     // Enter the event-processing loop
     glutMainLoop();
     return 0;
