@@ -91,6 +91,12 @@ void kbd(unsigned char key, int x, int y) {
         case '.':
             c.move(0, 0, -5);
             break;
+        case 'g':
+            c.resize(true);
+            break;
+        case 's':
+            c.resize(false);
+            break;
     }
 
     glutPostRedisplay();

@@ -128,3 +128,19 @@ void Cube::move(double delta_x, double delta_y, double delta_z) {
         p.z += delta_z;
     }
 }
+
+void Cube::resize(bool grow) {
+    // Scale factor is larger if grow is true, smaller otherwise
+    double scaleFactor = grow ? 1.1 : 0.9;
+    double center_x = center.x, center_y = center.y, center_z = center.z;
+    // Move to origin
+    move(-center_x, -center_y, -center_z);
+    // Scale each corner vector by new scaleFactor
+    for (point &p: corners) {
+        p.x *= scaleFactor;
+        p.y *= scaleFactor;
+        p.z *= scaleFactor;
+    }
+    // Move back to position
+    move(center_x, center_y, center_z);
+}

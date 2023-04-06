@@ -17,12 +17,14 @@ private:
 
     // Private helper methods
     void reset_corners();
+
     void draw_point(const point &p) const;
 
 public:
 
     // Constructors
     Cube();
+
     Cube(point center, unsigned int edge_length);
 
     // Draw the cube
@@ -33,6 +35,9 @@ public:
 
     // Move the cube
     void move(double delta_x, double delta_y, double delta_z);
+
+    // Resize the cube (growing or shrinking depending on the given bool)
+    void resize(bool grow);
 };
 
 
